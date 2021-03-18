@@ -9,33 +9,11 @@ void settings(){
 
 Table table;
 
-//Pensa que lo tenes que dibujar: los nodos y los links son entidades independientes
-
-class Node{
-  int hip;
-  String name;
-  float x;
-  float y;
-  
-  Node(int _hip, String _name, float _x, float _y){
-    hip = _hip;
-    name = _name;
-    x = _x;
-    y =_y;
-  }
-}
-
-//Primero pensa las relaciones como arrays, asi lo tenes en todos. Despues fijate si lo podes pasar a map y si tiene sentido. Que cambiaria del algoritmo?
-class Link{
-  ArrayList<Integer> relatedNodes;
-}
-
 ArrayList<Node> nodeList = new ArrayList<Node>();
-//ArrayList<Link> linksList = new ArrayList<Link>();
-HashMap<String, String> links = new HashMap<String, String>();
+ArrayList<Link> linksList = new ArrayList<Link>();
 
 //Ver como reemplazar findInList por contains en processing
-boolean findInList(int hip){
+boolean alreadyInList(int hip){
   boolean founded = false;
   for (Node node : nodeList){
     if (node.hip == hip){
@@ -45,8 +23,43 @@ boolean findInList(int hip){
   return founded;
 }
 
+void addToNodesToList(Node star1){
+    if (!alreadyInList(star1.hip)){
+      nodeList.add(star1);
+    }    
+}
+
+void generateLink(Node origin_node, Node final_node){
+  float initial_x = origin_node.x; //<>//
+  float initial_y = origin_node.y; //<>//
+  float final_x = final_node.x; //<>//
+  float final_y = final_node.y;   //<>// //<>// //<>// //<>//
+
+   for (Node node : nodeList) {
+    if (node.hip == origin_node.hip){
+        initial_x = node.x;
+        initial_y = node.y;
+        break;
+    }
+  }
+    
+   for (Node node : nodeList) {
+    if (node.hip == final_node.hip){
+        final_x = node.x;
+        final_y = node.y;
+        break;
+    }
+  }
+
+  Link link = new Link(initial_x, initial_y, final_x, final_y);
+  linksList.add(link);
+}
+
+
 void setup() {
   ((PGraphicsOpenGL)g).textureSampling(2);  // el 2 es nearest
+   background(51);
+
   
   table = loadTable("stars.csv", "header");
 
@@ -54,29 +67,31 @@ void setup() {
 
     int HIP0 = row.getInt("HIP0");
     int HIP1 = row.getInt("HIP1");
-    String CONSTELLATION = row.getString("CONSTELLATION");
     String STAR0 = row.getString("STAR0");
     String STAR1 = row.getString("STAR1");
+       
+    Node origin_node = new Node(HIP0, STAR0, random(400,1100), random(400,1100));    //<>//
+    Node final_node = new Node(HIP1, STAR1, random(400,1100), random(400,1100));  //<>//
+     
+    addToNodesToList(origin_node); //<>//
+    addToNodesToList(final_node);
+
+    generateLink(origin_node, final_node); //<>//
     
-    Node nd = new Node(HIP0, STAR0, random(1,1000), random(1,1000));
- 
-    if (!findInList(nd.hip)){
-      nodeList.add(nd);
-    }      
-    
-}
- 
-  for (Node n : nodeList){
-    println(n.name);
-  }
- 
+} //<>//
+
 }
 
 void draw(){
   
 for (Node n : nodeList){
-  ellipse(n.x, n.y, 10, 10);
+  ellipse(n.x, n.y, 30, 30);
   text(n.name, n.x, n.y);
+}
+
+for (Link link : linksList){
+  line(link.initial_x, link.initial_y, link.final_x, link.final_y);
+  stroke(126);
 }
 
 }

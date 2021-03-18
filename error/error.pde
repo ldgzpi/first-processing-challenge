@@ -27,6 +27,11 @@ class Thing
   {
     this.lifetime--;
   }
+  
+  void removeDeadThings(){
+    
+  }
+  
 //Buscar sobre draw: por que tengo uno adentro y otro afuera? tengo uno dibujo total y cada objeto es encargado de dibujarse a si mismo?
   void draw()
   {
@@ -51,20 +56,30 @@ void draw()
   background(32);
   noStroke();
   fill(128, 64, 32);
+  //this error is shown when you try and change (add / remove items) the collection on which you iterate during the loop.
+ 
+  
+  
   for (Thing t : things)
   {
-    println("t : " + t);
     t.update();// aca es donde rompe, por que? ConcurrentModificationException. Que es lo que quiero hacer con el programa? Dibujar circulos random?
-    t.draw();
-    
-    //si comentas el if y descomentas el udpate, loopea pero no muere
-    
+    t.draw(); //<>// //<>// //<>// //<>// //<>//
+  }
+  
+  for (Thing t : things) {
     if (t.isDead())
     {
-      things.remove(t); //<>//
-      things.add(new Thing()); //<>//
-      if (things.size() < 100) //<>//
-        things.add(new Thing()); //<>//
-    } //<>//
+      things.remove(t);
+      things.add(new Thing());
+      if (things.size() < 100)
+        things.add(new Thing());
+    }
   }
+  
+  
+  
+  
+  
+  
+  
 }
