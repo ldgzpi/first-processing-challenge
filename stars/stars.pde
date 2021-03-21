@@ -19,22 +19,25 @@ ArrayList<Node> nodeList = new ArrayList<Node>();
 ArrayList<Link> linksList = new ArrayList<Link>();
 
 //Ver como reemplazar findInList por contains en processing
-boolean alreadyInList(String hip){
-  boolean founded = false;
-  for (Node node : nodeList){
-    if (node.hip == hip){
-      founded = true;
-    }
+boolean alreadyInList(String hip){ //<>//
+  boolean founded = false; //<>//
+  for (Node node : nodeList){ //<>//
+    println("hip : " + hip);
+    println("node.hip : " + node.hip);
+
+    if (node.hip.equals(hip)){ //<>//
+      founded = true; //<>//
+    } 
   }
-  return founded;
+return founded;
 }
 
 void addToNodesToList(Node star1){
-    if (!alreadyInList(star1.hip)){
-      nodeList.add(star1);
-    }    
-}
-
+    if (!alreadyInList(star1.hip)){ //<>//
+      nodeList.add(star1); //<>// //<>//
+    }     //<>//
+} //<>//
+ //<>//
 void generateLink(Node origin_node, Node final_node){
   float initial_x = origin_node.x; //<>//
   float initial_y = origin_node.y; //<>//
@@ -42,7 +45,7 @@ void generateLink(Node origin_node, Node final_node){
   float final_y = final_node.y;   //<>// //<>// //<>// //<>//
 
    for (Node node : nodeList) {
-    if (node.hip == origin_node.hip){
+      if (node.hip.equals(origin_node.hip)){
         initial_x = node.x;
         initial_y = node.y;
         break;
@@ -50,7 +53,7 @@ void generateLink(Node origin_node, Node final_node){
   }
     
    for (Node node : nodeList) {
-    if (node.hip == final_node.hip){
+    if (node.hip.equals(final_node.hip)){
         final_x = node.x;
         final_y = node.y;
         break;
@@ -63,8 +66,8 @@ void generateLink(Node origin_node, Node final_node){
 
 
 void setup() {
-  ((PGraphicsOpenGL)g).textureSampling(2);  // el 2 es nearest
-   background(51);
+  ((PGraphicsOpenGL)g).textureSampling(2);  // el 2 es nearest //<>//
+   background(51); //<>// //<>// //<>// //<>// //<>//
 
 
 // Open a file and read its binary data 
@@ -98,27 +101,28 @@ for (int i = 1 ; i < result.length ; i++){
     newRow.setString(columns.get(4), data.get(4));
 
 }
-println(table.getRowCount());
-
 
 //  table = loadTable("stars.csv", "header");
 
   for (TableRow row : table.rows()) {
 
     String HIP0 = row.getString(columns.get(1));
-    String HIP1 = row.getString(columns.get(2));
-    String STAR0 = row.getString(columns.get(3));
+    String HIP1 = row.getString(columns.get(3));
+    String STAR0 = row.getString(columns.get(2));
     String STAR1 = row.getString(columns.get(4));
        
-    Node origin_node = new Node(HIP0, STAR0, random(400,1100), random(400,1100));    //<>//
-    Node final_node = new Node(HIP1, STAR1, random(400,1100), random(400,1100));  //<>//
+    Node origin_node = new Node(HIP0, STAR0, random(400,1100), random(400,1100));
+    Node final_node = new Node(HIP1, STAR1, random(400,1100), random(400,1100));
      
-    addToNodesToList(origin_node); //<>//
+    //println("origin_node : " + origin_node.hip + " " + origin_node.name); 
+    addToNodesToList(origin_node); 
+    //println("final_node : " + final_node.hip + " " + final_node.name); 
     addToNodesToList(final_node);
-
-    generateLink(origin_node, final_node); //<>//
     
-} //<>//
+    generateLink(origin_node, final_node); 
+    
+} 
+
 }
 
 
