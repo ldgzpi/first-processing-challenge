@@ -36,18 +36,20 @@ void generateLink(Star origin_star, Star final_star){
   float final_x = final_star.x; 
   float final_y = final_star.y;
 
-   for (Star node : starList) {
-      if (node.hip.equals(origin_star.hip)){
-        initial_x = node.x;
-        initial_y = node.y;
+   for (Star star : starList) {
+      if (star.hip.equals(origin_star.hip)){
+        initial_x = star.x;
+        initial_y = star.y;
         break;
     }
-     if (node.hip.equals(final_star.hip)){
-        final_x = node.x;
-        final_y = node.y;
+  }
+    
+  for (Star star : starList) {
+        if (star.hip.equals(final_star.hip)){
+        final_x = star.x;
+        final_y = star.y;
         break;
     }
-     
   }
 
   Link link = new Link(initial_x, initial_y, final_x, final_y);
