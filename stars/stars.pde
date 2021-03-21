@@ -1,4 +1,10 @@
-import java.util.HashMap;
+import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+
+import java.io.*;
 
 void settings(){
   System.setProperty("jogl.disable.openglcore", "true");
@@ -7,13 +13,13 @@ void settings(){
 
 }
 
-Table table;
+Table table = new Table();
 
 ArrayList<Node> nodeList = new ArrayList<Node>();
 ArrayList<Link> linksList = new ArrayList<Link>();
 
 //Ver como reemplazar findInList por contains en processing
-boolean alreadyInList(int hip){
+boolean alreadyInList(String hip){
   boolean founded = false;
   for (Node node : nodeList){
     if (node.hip == hip){
@@ -60,15 +66,49 @@ void setup() {
   ((PGraphicsOpenGL)g).textureSampling(2);  // el 2 es nearest
    background(51);
 
-  
-  table = loadTable("stars.csv", "header");
+
+// Open a file and read its binary data 
+byte b[] = loadBytes("stars.dat"); 
+ 
+//Lo transforma en strings con los valores separados por commas
+String s = Base64.getEncoder().encodeToString(b);
+byte[] decodedBytes = Base64.getDecoder().decode(s);
+String decodedString = new String(decodedBytes);
+
+//println(decodedString);
+
+String[] result = decodedString.split("\\R", 0);
+
+//SETEAR NOMBRES DE COLUMNAS:
+
+List<String> columns = Arrays.asList(result[0].split(",", -1));
+for (String columnName : columns){
+  table.addColumn(columnName.toString());
+}
+
+//SETEAR FILAS
+for (int i = 1 ; i < result.length ; i++){
+  List<String> data = Arrays.asList(result[i].split(",", -1));
+    TableRow newRow = table.addRow();
+      
+    newRow.setString(columns.get(0), data.get(0));
+    newRow.setString(columns.get(1), data.get(1));
+    newRow.setString(columns.get(2), data.get(2));
+    newRow.setString(columns.get(3), data.get(3));
+    newRow.setString(columns.get(4), data.get(4));
+
+}
+println(table.getRowCount());
+
+
+//  table = loadTable("stars.csv", "header");
 
   for (TableRow row : table.rows()) {
 
-    int HIP0 = row.getInt("HIP0");
-    int HIP1 = row.getInt("HIP1");
-    String STAR0 = row.getString("STAR0");
-    String STAR1 = row.getString("STAR1");
+    String HIP0 = row.getString(columns.get(1));
+    String HIP1 = row.getString(columns.get(2));
+    String STAR0 = row.getString(columns.get(3));
+    String STAR1 = row.getString(columns.get(4));
        
     Node origin_node = new Node(HIP0, STAR0, random(400,1100), random(400,1100));    //<>//
     Node final_node = new Node(HIP1, STAR1, random(400,1100), random(400,1100));  //<>//
@@ -79,8 +119,8 @@ void setup() {
     generateLink(origin_node, final_node); //<>//
     
 } //<>//
-
 }
+
 
 void draw(){
   

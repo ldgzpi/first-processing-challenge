@@ -1,10 +1,10 @@
 class Node{
-  int hip;
+  String hip;
   String name;
   float x;
   float y;
   
-  Node(int _hip, String _name, float _x, float _y){
+  Node(String _hip, String _name, float _x, float _y){
     hip = _hip;
     name = _name;
     x = _x;
