@@ -2,30 +2,25 @@ import java.util.*;
 import java.nio.charset.StandardCharsets;
 import java.io.*;
 
-void settings(){
-  System.setProperty("jogl.disable.openglcore", "true");
-   //size(1000, 1000, P2D);
-   fullScreen(P2D, 2);
-
-}
-
+PImage bg;
 Table table = new Table();
-
 ArrayList<Node> nodeList = new ArrayList<Node>();
 ArrayList<Link> linksList = new ArrayList<Link>();
 ArrayList<Constellation> constellationList = new ArrayList<Constellation>();
 
-
-//Ver como reemplazar findInList por contains en processing
-boolean nodeAlreadyInList(String hip){
-  boolean founded = false;
-  for (Node node : nodeList){ //<>// //<>//
-    if (node.hip.equals(hip)){ //<>// //<>//
-      founded = true; //<>//
-    } 
-  }
-return founded;
+void settings(){
+  System.setProperty("jogl.disable.openglcore", "true");
+  size(1200, 675, P2D);
 }
+
+boolean nodeAlreadyInList(String hip){
+  for (Node node : nodeList){ //<>//
+    if (node.hip.equals(hip)){ //<>//
+      return true;
+    }  //<>//
+  }
+return false; //<>//
+} //<>//
 
 void addToNodesToList(Node star1){
     if (!nodeAlreadyInList(star1.hip)){ //<>//
@@ -34,108 +29,49 @@ void addToNodesToList(Node star1){
 }
 
 boolean constellationAlreadyInList(String constellationName){
-  boolean founded = false; //<>//
-  for (Constellation c : constellationList){ //<>//
-    if (c.name.equals(constellationName)){ //<>//
-      founded = true; //<>//
+  for (Constellation c : constellationList){
+    if (c.name.equals(constellationName)){
+      return true;
     } 
   }
-return founded;
-}
-
-void addToConstellationToList(Constellation constellation){
+return false; //<>//
+} //<>//
+ //<>//
+void addToConstellationToList(Constellation constellation){ //<>//
     if (!constellationAlreadyInList(constellation.name)){
       constellationList.add(constellation);
     }    
 }
 
-void generateLink(Node origin_node, Node final_node){
-  float initial_x = origin_node.x; //<>//
-  float initial_y = origin_node.y; //<>//
-  float final_x = final_node.x; //<>//
-  float final_y = final_node.y;   //<>// //<>// //<>// //<>//
-
-   for (Node node : nodeList) {
-      if (node.hip.equals(origin_node.hip)){
-        initial_x = node.x;
-        initial_y = node.y;
-        break;
-    }
-  }
-    
-   for (Node node : nodeList) {
-    if (node.hip.equals(final_node.hip)){
-        final_x = node.x;
-        final_y = node.y; //<>//
-        break; //<>// //<>// //<>// //<>// //<>//
-    }
-  }
-
-  Link link = new Link(initial_x, initial_y, final_x, final_y);
-  linksList.add(link);
-}
-
-
 void setup() {
-  ((PGraphicsOpenGL)g).textureSampling(2);  // el 2 es nearest
-   background(51);
-
-
-// Open a file and read its binary data 
-byte b[] = loadBytes("stars.dat"); 
- 
-//Lo transforma en strings con los valores separados por commas
-String s = Base64.getEncoder().encodeToString(b);
-byte[] decodedBytes = Base64.getDecoder().decode(s);
-String decodedString = new String(decodedBytes);
-
-//println(decodedString);
-
-String[] result = decodedString.split("\\R", 0);
-
-//SETEAR NOMBRES DE COLUMNAS:
-
-List<String> columns = Arrays.asList(result[0].split(",", -1));
-for (String columnName : columns){
-  table.addColumn(columnName.toString());
-}
-
-//SETEAR FILAS
-for (int i = 1 ; i < result.length ; i++){
-  List<String> data = Arrays.asList(result[i].split(",", -1));
-    TableRow newRow = table.addRow();
-      
-    newRow.setString(columns.get(0), data.get(0));
-    newRow.setString(columns.get(1), data.get(1));
-    newRow.setString(columns.get(2), data.get(2));
-    newRow.setString(columns.get(3), data.get(3));
-    newRow.setString(columns.get(4), data.get(4));
-
-}
+   bg = loadImage("space.jpeg");
+   String[] result = openFileAndReadData("stars.dat");
+   List<String> columnNames = Arrays.asList(result[0].split(",", -1));
+   buildTable(table, columnNames, result);
 
   for (TableRow row : table.rows()) {
    
-    String CONSTELLATION = row.getString(columns.get(0));
-    String HIP0 = row.getString(columns.get(1));
-    String STAR0 = row.getString(columns.get(2));
-    String HIP1 = row.getString(columns.get(3));
-    String STAR1 = row.getString(columns.get(4));
+    String CONSTELLATION = row.getString(columnNames.get(0));
+    String HIP0 = row.getString(columnNames.get(1));
+    String STAR0 = row.getString(columnNames.get(2));
+    String HIP1 = row.getString(columnNames.get(3));
+    String STAR1 = row.getString(columnNames.get(4));
      
     Constellation constellation = new Constellation(CONSTELLATION);   
-    Node origin_node = new Node(CONSTELLATION, HIP0, STAR0, random(400,1100), random(400,1100));
-    Node final_node = new Node(CONSTELLATION, HIP1, STAR1, random(400,1100), random(400,1100));
+    Node origin_node = new Node(CONSTELLATION, HIP0, STAR0, random(100,1000), random(100,500));
+    Node final_node = new Node(CONSTELLATION, HIP1, STAR1, random(100,1000), random(100,500));
     
     addToConstellationToList(constellation); 
     addToNodesToList(origin_node); 
     addToNodesToList(final_node);
     
     generateLink(origin_node, final_node); 
-} 
-
+}  //<>//
+ //<>// //<>// //<>// //<>// //<>//
 }
 
-
 void draw(){
+background(bg);
   
 for (Node n : nodeList){
   ellipse(n.x, n.y, 30, 30);
@@ -146,7 +82,7 @@ for (Node n : nodeList){
 
 for (Link link : linksList){
   line(link.initial_x, link.initial_y, link.final_x, link.final_y);
-  stroke(126);
+  stroke(255);
 }
 
 }
