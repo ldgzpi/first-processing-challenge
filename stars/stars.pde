@@ -1,46 +1,15 @@
 import java.util.*;
-import java.nio.charset.StandardCharsets;
 import java.io.*;
 
 PImage bg;
 Table table = new Table();
-ArrayList<Node> nodeList = new ArrayList<Node>();
+ArrayList<Star> starList = new ArrayList<Star>();
 ArrayList<Link> linksList = new ArrayList<Link>();
 ArrayList<Constellation> constellationList = new ArrayList<Constellation>();
 
 void settings(){
   System.setProperty("jogl.disable.openglcore", "true");
   size(1200, 675, P2D);
-}
-
-boolean nodeAlreadyInList(String hip){
-  for (Node node : nodeList){ //<>//
-    if (node.hip.equals(hip)){ //<>//
-      return true;
-    }  //<>//
-  }
-return false; //<>//
-} //<>//
-
-void addToNodesToList(Node star1){
-    if (!nodeAlreadyInList(star1.hip)){ //<>//
-      nodeList.add(star1); //<>//
-    }    
-}
-
-boolean constellationAlreadyInList(String constellationName){
-  for (Constellation c : constellationList){
-    if (c.name.equals(constellationName)){
-      return true;
-    } 
-  }
-return false; //<>//
-} //<>//
- //<>//
-void addToConstellationToList(Constellation constellation){ //<>//
-    if (!constellationAlreadyInList(constellation.name)){
-      constellationList.add(constellation);
-    }    
 }
 
 void setup() {
@@ -58,22 +27,21 @@ void setup() {
     String STAR1 = row.getString(columnNames.get(4));
      
     Constellation constellation = new Constellation(CONSTELLATION);   
-    Node origin_node = new Node(CONSTELLATION, HIP0, STAR0, random(100,1000), random(100,500));
-    Node final_node = new Node(CONSTELLATION, HIP1, STAR1, random(100,1000), random(100,500));
+    Star origin_star = new Star(CONSTELLATION, HIP0, STAR0, random(100,1000), random(100,500));
+    Star final_star = new Star(CONSTELLATION, HIP1, STAR1, random(100,1000), random(100,500));
     
-    addToConstellationToList(constellation); 
-    addToNodesToList(origin_node); 
-    addToNodesToList(final_node);
-    
-    generateLink(origin_node, final_node); 
-}  //<>//
- //<>// //<>// //<>// //<>// //<>//
+    addConstellationToList(constellation); 
+    addStarToList(origin_star); 
+    addStarToList(final_star);
+    generateLink(origin_star, final_star); 
+} 
+
 }
 
 void draw(){
 background(bg);
   
-for (Node n : nodeList){
+for (Star n : starList){
   ellipse(n.x, n.y, 30, 30);
   text(n.name, n.x, n.y);
   fill(n.colour()[0], n.colour()[1], n.colour()[2]);

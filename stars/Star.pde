@@ -1,16 +1,19 @@
-class Node{
+class Star{
   String hip;
   String name;
   float x;
   float y;
   String constellationName;
   
-  Node(String _constellationName, String _hip, String _name, float _x, float _y){
+  Star(String _constellationName, String _hip, String _name, float _x, float _y){
     constellationName = _constellationName;
     hip = _hip;
     name = _name;
     x = _x;
     y =_y;
+  }
+  
+  void alreadyInList(){
   }
  
  
