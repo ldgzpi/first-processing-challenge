@@ -1,9 +1,5 @@
 import java.util.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-
 import java.io.*;
 
 void settings(){
@@ -17,15 +13,14 @@ Table table = new Table();
 
 ArrayList<Node> nodeList = new ArrayList<Node>();
 ArrayList<Link> linksList = new ArrayList<Link>();
+ArrayList<Constellation> constellationList = new ArrayList<Constellation>();
+
 
 //Ver como reemplazar findInList por contains en processing
-boolean alreadyInList(String hip){ //<>//
-  boolean founded = false; //<>//
-  for (Node node : nodeList){ //<>//
-    println("hip : " + hip);
-    println("node.hip : " + node.hip);
-
-    if (node.hip.equals(hip)){ //<>//
+boolean nodeAlreadyInList(String hip){
+  boolean founded = false;
+  for (Node node : nodeList){ //<>// //<>//
+    if (node.hip.equals(hip)){ //<>// //<>//
       founded = true; //<>//
     } 
   }
@@ -33,11 +28,27 @@ return founded;
 }
 
 void addToNodesToList(Node star1){
-    if (!alreadyInList(star1.hip)){ //<>//
-      nodeList.add(star1); //<>// //<>//
-    }     //<>//
-} //<>//
- //<>//
+    if (!nodeAlreadyInList(star1.hip)){ //<>//
+      nodeList.add(star1); //<>//
+    }    
+}
+
+boolean constellationAlreadyInList(String constellationName){
+  boolean founded = false; //<>//
+  for (Constellation c : constellationList){ //<>//
+    if (c.name.equals(constellationName)){ //<>//
+      founded = true; //<>//
+    } 
+  }
+return founded;
+}
+
+void addToConstellationToList(Constellation constellation){
+    if (!constellationAlreadyInList(constellation.name)){
+      constellationList.add(constellation);
+    }    
+}
+
 void generateLink(Node origin_node, Node final_node){
   float initial_x = origin_node.x; //<>//
   float initial_y = origin_node.y; //<>//
@@ -55,8 +66,8 @@ void generateLink(Node origin_node, Node final_node){
    for (Node node : nodeList) {
     if (node.hip.equals(final_node.hip)){
         final_x = node.x;
-        final_y = node.y;
-        break;
+        final_y = node.y; //<>//
+        break; //<>// //<>// //<>// //<>// //<>//
     }
   }
 
@@ -66,8 +77,8 @@ void generateLink(Node origin_node, Node final_node){
 
 
 void setup() {
-  ((PGraphicsOpenGL)g).textureSampling(2);  // el 2 es nearest //<>//
-   background(51); //<>// //<>// //<>// //<>// //<>//
+  ((PGraphicsOpenGL)g).textureSampling(2);  // el 2 es nearest
+   background(51);
 
 
 // Open a file and read its binary data 
@@ -102,25 +113,23 @@ for (int i = 1 ; i < result.length ; i++){
 
 }
 
-//  table = loadTable("stars.csv", "header");
-
   for (TableRow row : table.rows()) {
-
+   
+    String CONSTELLATION = row.getString(columns.get(0));
     String HIP0 = row.getString(columns.get(1));
-    String HIP1 = row.getString(columns.get(3));
     String STAR0 = row.getString(columns.get(2));
+    String HIP1 = row.getString(columns.get(3));
     String STAR1 = row.getString(columns.get(4));
-       
-    Node origin_node = new Node(HIP0, STAR0, random(400,1100), random(400,1100));
-    Node final_node = new Node(HIP1, STAR1, random(400,1100), random(400,1100));
      
-    //println("origin_node : " + origin_node.hip + " " + origin_node.name); 
+    Constellation constellation = new Constellation(CONSTELLATION);   
+    Node origin_node = new Node(CONSTELLATION, HIP0, STAR0, random(400,1100), random(400,1100));
+    Node final_node = new Node(CONSTELLATION, HIP1, STAR1, random(400,1100), random(400,1100));
+    
+    addToConstellationToList(constellation); 
     addToNodesToList(origin_node); 
-    //println("final_node : " + final_node.hip + " " + final_node.name); 
     addToNodesToList(final_node);
     
     generateLink(origin_node, final_node); 
-    
 } 
 
 }
@@ -131,6 +140,8 @@ void draw(){
 for (Node n : nodeList){
   ellipse(n.x, n.y, 30, 30);
   text(n.name, n.x, n.y);
+  fill(n.colour()[0], n.colour()[1], n.colour()[2]);
+  
 }
 
 for (Link link : linksList){
