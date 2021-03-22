@@ -2,7 +2,8 @@
 
 ## Texture Filtering
 
-Se modifica texture filtering segun lo solicitado. Referencias:
+Se modifica texture filtering segun lo solicitado. 
+Referencias:
 - https://developer.arm.com/documentation/102449/0100/Texture-filtering
 - https://stackoverflow.com/questions/62133567/upscaling-an-image-using-nearest-neighbor-in-processing
 - https://stackoverflow.com/questions/43077189/how-can-i-achieve-nosmooth-with-the-p3d-renderer
@@ -11,9 +12,30 @@ Se modifica texture filtering segun lo solicitado. Referencias:
 
 El programa recibe un archivo stars.dat con la siguiente distribucion de elementos separados por comas:
 
-file:///home/pipa/Desktop/starsdat.png![image](https://user-images.githubusercontent.com/46507487/111926653-7fda4e80-8a8c-11eb-8447-67dfb4904639.png)
-
-
+```bash
+  CONSTELLATION,HIP0,STAR0,HIP1,STAR1
+  Orion,27989,Betelgeuse,26207,Meissa
+  Orion,27989,Betelgeuse,26727,Alnitak
+  Orion,27366,Saiph,26727,Alnitak
+  Orion,27366,Saiph,24436,Rigel
+  Orion,25930,Mintaka,24436,Rigel
+  Orion,25930,Mintaka,26311,Alnilam
+  Orion,25930,Mintaka,25336,Bellatrix
+  Orion,26207,Meissa,25336,Bellatrix
+  Orion,26727,Alnitak,26311,Alnilam
+  Orion,22449,Tabit,25336,Bellatrix
+  Orion,22449,Tabit,22509,Al Taj I
+  Orion,22449,Tabit,22549,Al Taj II
+  Orion,22845,Al Taj IV,22509,Al Taj I
+  Orion,22549,Al Taj II,22730,HIP 22730
+  Orion,23123,Al Taj V,22730,HIP 22730
+  Orion,27989,Betelgeuse,28614,μ Ori
+  Orion,28614,μ Ori,29038,ν Ori
+  Orion,28614,μ Ori,29426,ξ Ori
+  Orion,29038,ν Ori,29426,ξ Ori
+  Orion,29038,ν Ori,27913,χ1 Ori
+  Orion,29426,ξ Ori,28691,64 Ori
+```
 A partir de los datos recibidos como input, se forma una objeto del tipo Table.
 Luego, se recorren las filas de la tabla y se asignan los valores a las variables del mismo nombre.
 
