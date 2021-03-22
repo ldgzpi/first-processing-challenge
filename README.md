@@ -2,7 +2,10 @@
 
 ## Texture Filtering
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Se modifica texture filtering segun lo solicitado. Referencias:
+- https://developer.arm.com/documentation/102449/0100/Texture-filtering
+- https://stackoverflow.com/questions/62133567/upscaling-an-image-using-nearest-neighbor-in-processing
+- https://stackoverflow.com/questions/43077189/how-can-i-achieve-nosmooth-with-the-p3d-renderer
 
 ## Stars
 
