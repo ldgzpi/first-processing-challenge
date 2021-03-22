@@ -11,28 +11,8 @@ Se modifica texture filtering segun lo solicitado. Referencias:
 
 El programa recibe un archivo stars.dat con la siguiente distribucion de elementos separados por comas:
 
-CONSTELLATION |HIP0	  |HIP1			|STAR0						|STAR1
-Orion 				|27989	|26207	  |Betelgeuse			  |Meissa
-Orion 				|27989	|26727	  |Betelgeuse			  |Alnitak
-Orion 				|27366	|26727		|Saiph						|Alnitak
-Orion 				|27366	|24436		|Saiph						|Rigel
-Orion 				|25930	|24436		|Mintaka					|Rigel
-Orion 				|25930	|26311		|Mintaka					|Alnilam
-Orion				  |25930	|25336		|Mintaka					|Bellatrix
-Orion				  |26207	|25336		|Meissa						|Bellatrix
-Orion				  |26727	|26311		|Alnitak					|Alnilam
-Orion				  |22449	|25336		|Tabit						|Bellatrix
-Orion				  |22449	|22509		|Tabit						|Al Taj I
-Orion				  |22449	|22549		|Tabit						|Al Taj II
-Orion				  |22845	|22509		|Al Taj IV				|Al Taj I
-Orion				  |22549	|22730		|Al Taj II				|HIP 22730
-Orion				  |23123	|22730		|Al Taj V					|HIP 22730
-Orion				  |27989	|28614		|Betelgeuse				|μ Ori
-Orion				  |28614	|29038		|μ Ori						|ν Ori
-Orion				  |28614	|29426		|μ Ori						|ξ Ori
-Orion				  |29038	|29426		|ν Ori						|ξ Ori
-Orion				  |29038	|27913		|ν Ori						|χ1 Ori
-Orion				  |29426	|28691		|ξ Ori						|64 Ori
+file:///home/pipa/Desktop/starsdat.png![image](https://user-images.githubusercontent.com/46507487/111926653-7fda4e80-8a8c-11eb-8447-67dfb4904639.png)
+
 
 A partir de los datos recibidos como input, se forma una objeto del tipo Table.
 Luego, se recorren las filas de la tabla y se asignan los valores a las variables del mismo nombre.
