@@ -2,6 +2,7 @@ import java.util.*;
 import java.io.*;
 
 PImage bg;
+PFont font;
 Table table = new Table();
 ArrayList<Star> starList = new ArrayList<Star>();
 ArrayList<Link> linksList = new ArrayList<Link>();
@@ -40,10 +41,11 @@ void setup() {
 
 void draw(){
 background(bg);
-  
 for (Star n : starList){
-  ellipse(n.x, n.y, 30, 30);
+  ellipse(n.x, n.y, 50, 50);
   text(n.name, n.x, n.y);
+  font = createFont("Extrabold Italic Open Sans", 18);
+  textFont(font);
   fill(n.colour()[0], n.colour()[1], n.colour()[2]);
   
 }
