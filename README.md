@@ -48,4 +48,8 @@ Por otro lado, se asume que el archivo stars.dat puede tener mas de una constela
 
 ## Error
 
+El archivo original no podia ejecutarse ya que arrojaba ConcurrentModificationException. Esto sucedia porque al mismo tiempo que se recorria la lista things, se intentaba eliminar elementos de la misma. Esto ultimo rompe los indices de los elementos contenidos en la lista y por consiguiente no puede continuar recorriendola. Una manera de resolver esto podria haber sido recorrer la lista en sentido contrario al planteado. Yo elegi utilizar la interfaz ListIterator, que crea un Iterator sobre una lista dada y permite realizar operaciones CRUD sobre la misma.
+
+Referencias:
+- https://docs.oracle.com/javase/7/docs/api/java/util/ListIterator.html
 
