@@ -2,7 +2,7 @@ import java.lang.System;
 
 void settings(){
   System.setProperty("jogl.disable.openglcore", "true"); // Workaround para Ubuntu 20.04. En otros OS esta linea no deberia ser necesaria.
-  size(320, 240, P2D);
+  size(500, 500, P2D);
 }
 
 
@@ -13,6 +13,8 @@ void setup() {
 void draw() {
   background(153);
   fill(255);
-  ellipse(160, 120, 200, 200);
+  ellipse(80, 80, 100, 100);
+  scale(4.0);
+  ellipse(70, 70, 100, 100);
 
 }
